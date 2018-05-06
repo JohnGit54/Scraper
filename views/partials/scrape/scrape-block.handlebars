@@ -1,0 +1,20 @@
+{{!-- this display uneaten burgers - left side --}}
+
+<div class="panel panel-default devouredfalse">
+    <div class="panel-body">
+        <h1>Scrape article block</h1>
+        <!--Panel Content -->
+        <div class="row">
+            <div class="col-md-8">
+                {{this._id}} - {{title}}
+            </div>
+            <div class="col-md-3">
+                {{!-- {{#unless this.devoured}} --}}
+                <form action="/api/burgers/{{this.id}}" method="POST">
+                    <button type="submit" data-id="{{this._id}}">DEVOUR!</button>
+                </form>
+                {{!-- {{/unless}} --}}
+            </div>
+        </div>
+    </div>
+</div>

@@ -30,6 +30,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //use express.static to serve the public folder
 app.use(express.static("public"));
 
+//set up handlebars
+var exphbs = require("express-handlebars");
+app.engine("handlebars" , exphbs({defaultLayout:"main"}));
+app.set("view engine", "handlebars");
+
 
 //connect to Mongo DB
 mongoose.connect("mongodb://localhost/scraperdb");
@@ -74,7 +79,9 @@ app.get("/scrape", function (req, res) {
 app.get("/articles", function (req, res) {
     db.Article.find({}).sort({ "_id": -1 })
         .then(function (dbArticle) {
-            res.json(dbArticle);
+            //res.json(dbArticle);
+            //console.log( dbArticle);
+            res.render("index" , { articles: dbArticle });
         })
         .catch(function (err) {
             res.json(err);
