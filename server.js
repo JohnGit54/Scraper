@@ -64,7 +64,6 @@ app.get("/scrape", function (req, res) {
 
         });
 
-
         //if we werw able to succesfully scrape and save ARticle
         res.send("scrape complete");
     });
