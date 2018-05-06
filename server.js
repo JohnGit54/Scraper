@@ -76,7 +76,7 @@ app.get("/scrape", function (req, res) {
 
 
 //route to get the articles from the database
-app.get("/articles", function (req, res) {
+app.get("/", function (req, res) {
     db.Article.find({}).sort({ "_id": -1 })
         .then(function (dbArticle) {
             //res.json(dbArticle);
