@@ -70,6 +70,55 @@ app.get("/scrape", function (req, res) {
 });
 
 
+//route to get the articles from the database
+app.get("/articles", function (req, res) {
+    db.Article.find({}).sort({ "_id": -1 })
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            res.json(err);
+        })
+
+})
+
+//route for grabbing a specific article by id and populate with a note
+
+app.get("/articles/:id", function (req, res) {
+    db.Article.findOne({ _id: req.params.id })
+        .populate("note")
+        .then(function (dbArticle) {
+            res.json(dbArticle)
+        })
+        .catch(function (err) {
+            if (err) console.log(" err find by id ", err)
+        });
+})
+
+// run the populate method with "note"
+//the responds with the article with the note included
+//Route for saving/updating an Articles associated Note
+
+app.post("/articles/:id", function (req, res) {
+    // TODO
+    // ====
+    // save the new note that gets posted to the Notes collection
+    // then find an article from the req.params.id
+    // and update it's "note" property with the _id of the new note
+    db.Note.create(req.body)
+        .then(function (dbNote) {
+            return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+        })
+        .then(function (dbArticle) {
+            res.json(dbArticle);
+        })
+        .catch(function(err){
+            console.log(" error in post" ,err);
+            res.json(err);
+        })
+         
+})
+
 
 //start the server
 app.listen(PORT, function () {
